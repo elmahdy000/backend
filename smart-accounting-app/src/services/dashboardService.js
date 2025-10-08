@@ -1,32 +1,44 @@
-const simulateDelay = (ms = 320) => new Promise((resolve) => setTimeout(resolve, ms));
+import { apiRequest } from './apiClient.js';
 
-export async function fetchOverviewMetrics() {
-  await simulateDelay();
-  return {
+const fallbackSnapshot = Object.freeze({
+  generatedAt: new Date().toISOString(),
+  metrics: {
     revenue: 148500,
     expenses: 91050,
     profitGrowth: 14.2,
     aiConfidence: 94,
     cashOnHand: 67200,
     monthlyBurn: 21800
-  };
-}
-
-export async function fetchCashflowTrend() {
-  await simulateDelay();
-  return [
+  },
+  cashflow: [
     { name: 'يناير', revenue: 101000, expenses: 69000 },
     { name: 'فبراير', revenue: 109500, expenses: 72000 },
     { name: 'مارس', revenue: 115400, expenses: 76000 },
     { name: 'أبريل', revenue: 121300, expenses: 79200 },
     { name: 'مايو', revenue: 134800, expenses: 83400 },
     { name: 'يونيو', revenue: 148500, expenses: 91050 }
-  ];
-}
-
-export async function fetchAIAlerts() {
-  await simulateDelay();
-  return [
+  ],
+  highlights: [
+    {
+      icon: 'realtime',
+      title: 'تكامل مع البنوك السعودية',
+      description:
+        'استيراد تلقائي للحركات البنكية من مدى، سداد، والمدفوعات الحكومية مع تصنيف ذكي فوري.'
+    },
+    {
+      icon: 'analytics',
+      title: 'توقعات نقدية دقيقة',
+      description:
+        'محركات تعلم آلي تتنبأ بسيناريوهات متعددة للسيولة وتعرض منحنيات الحساسية باللغة العربية.'
+    },
+    {
+      icon: 'integrations',
+      title: 'تشغيل آلي للضرائب',
+      description:
+        'منظومة تولد الإقرارات الضريبية الشهرية وتتحقق من الالتزام بمعايير الزكاة والضريبة والجمارك.'
+    }
+  ],
+  aiAlerts: [
     {
       id: 1,
       title: 'تحسين إدارة الذمم المدينة',
@@ -48,36 +60,8 @@ export async function fetchAIAlerts() {
         'بناءً على قوة التدفق النقدي الحالي، يمكنك زيادة الائتمان التشغيلي بمقدار 150,000 ر.س دون التأثير على نسبة التغطية.',
       impact: 'دعم نمو المبيعات القادم'
     }
-  ];
-}
-
-export async function fetchSystemHighlights() {
-  await simulateDelay();
-  return [
-    {
-      icon: 'realtime',
-      title: 'تكامل مع البنوك السعودية',
-      description:
-        'استيراد تلقائي للحركات البنكية من مدى، سداد، والمدفوعات الحكومية مع تصنيف ذكي فوري.'
-    },
-    {
-      icon: 'analytics',
-      title: 'توقعات نقدية دقيقة',
-      description:
-        'محركات تعلم آلي تتنبأ بسيناريوهات متعددة للسيولة وتعرض منحنيات الحساسية باللغة العربية.'
-    },
-    {
-      icon: 'integrations',
-      title: 'تشغيل آلي للضرائب',
-      description:
-        'منظومة تولد الإقرارات الضريبية الشهرية وتتحقق من الالتزام بمعايير الزكاة والضريبة والجمارك.'
-    }
-  ];
-}
-
-export async function fetchRecentActivities() {
-  await simulateDelay();
-  return [
+  ],
+  activities: [
     {
       id: 1,
       title: 'تسوية قيود الرواتب',
@@ -102,12 +86,8 @@ export async function fetchRecentActivities() {
       description:
         'تم ربط منصة المتجر بالذكاء المحاسبي وتم استيراد 430 طلبًا مع تصنيفها الضريبي.'
     }
-  ];
-}
-
-export async function fetchSmartInsights() {
-  await simulateDelay();
-  return [
+  ],
+  insights: [
     {
       id: 'runway',
       label: 'مدة السيولة المتوقعة',
@@ -123,5 +103,89 @@ export async function fetchSmartInsights() {
       label: 'موثوقية التوقعات',
       description: 'تم تدريب النماذج على 1.2 مليون معاملة عربية مما رفع الدقة إلى 94٪.'
     }
-  ];
+  ]
+});
+
+const clone = (value) => JSON.parse(JSON.stringify(value));
+let cachedSnapshot = null;
+let lastFetchedAt = 0;
+const CACHE_TTL = 60 * 1000;
+
+async function requestSnapshot(signal) {
+  try {
+    const snapshot = await apiRequest('/dashboard/snapshot', { signal });
+    const normalizedCashflow = snapshot.cashflow?.map((item) => ({
+      name: item.name || item.month,
+      revenue: Number(item.revenue) || 0,
+      expenses: Number(item.expenses) || 0
+    })) || [];
+
+    return {
+      ...snapshot,
+      cashflow: normalizedCashflow,
+      fromFallback: false
+    };
+  } catch (error) {
+    console.warn('فشل الاتصال بخدمة لوحة التحكم، سيتم استخدام بيانات افتراضية.', error);
+    const fallback = clone(fallbackSnapshot);
+    fallback.generatedAt = new Date().toISOString();
+    return {
+      ...fallback,
+      fromFallback: true
+    };
+  }
+}
+
+export async function fetchDashboardSnapshot(options = {}) {
+  const { forceRefresh = false, signal } = options;
+  const now = Date.now();
+
+  if (
+    !forceRefresh &&
+    cachedSnapshot &&
+    !cachedSnapshot.fromFallback &&
+    now - lastFetchedAt < CACHE_TTL
+  ) {
+    return cachedSnapshot;
+  }
+
+  const snapshot = await requestSnapshot(signal);
+  cachedSnapshot = snapshot;
+  lastFetchedAt = now;
+  return snapshot;
+}
+
+export async function fetchOverviewMetrics(options) {
+  const snapshot = await fetchDashboardSnapshot(options);
+  return snapshot.metrics;
+}
+
+export async function fetchCashflowTrend(options) {
+  const snapshot = await fetchDashboardSnapshot(options);
+  return snapshot.cashflow;
+}
+
+export async function fetchSystemHighlights(options) {
+  const snapshot = await fetchDashboardSnapshot(options);
+  return snapshot.highlights;
+}
+
+export async function fetchAIAlerts(options) {
+  const snapshot = await fetchDashboardSnapshot(options);
+  return snapshot.aiAlerts;
+}
+
+export async function fetchRecentActivities(options) {
+  const snapshot = await fetchDashboardSnapshot(options);
+  return snapshot.activities;
+}
+
+export async function fetchSmartInsights(options) {
+  const snapshot = await fetchDashboardSnapshot(options);
+  return snapshot.insights;
+}
+
+export function invalidateDashboardCache() {
+  cachedSnapshot = null;
+  lastFetchedAt = 0;
 }

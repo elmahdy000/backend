@@ -2,6 +2,8 @@ const { app, BrowserWindow, ipcMain, nativeTheme } = require('electron');
 const path = require('path');
 
 const isDev = process.env.NODE_ENV === 'development';
+const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api';
+process.env.API_BASE_URL = apiBaseUrl;
 
 function createWindow() {
   const window = new BrowserWindow({

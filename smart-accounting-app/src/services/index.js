@@ -1,8 +1,10 @@
 export {
+  fetchDashboardSnapshot,
   fetchOverviewMetrics,
   fetchCashflowTrend,
   fetchAIAlerts,
   fetchSystemHighlights,
   fetchRecentActivities,
-  fetchSmartInsights
+  fetchSmartInsights,
+  invalidateDashboardCache
 } from './dashboardService.js';

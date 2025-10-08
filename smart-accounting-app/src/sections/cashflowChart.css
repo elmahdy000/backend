@@ -1,0 +1,65 @@
+.chart-card {
+  border-radius: 24px;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.86);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.chart-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.chart-card__header h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
+}
+
+.chart-card__header p {
+  color: rgba(15, 23, 42, 0.6);
+  font-size: 0.92rem;
+}
+
+.chart-card__badge {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.2));
+  color: #1d4ed8;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.chart-wrapper {
+  width: 100%;
+  min-height: 320px;
+}
+
+.chart-card .empty-state {
+  padding: 2rem;
+  border-radius: 18px;
+  background: rgba(37, 99, 235, 0.08);
+  color: rgba(15, 23, 42, 0.68);
+  text-align: center;
+  font-weight: 500;
+}
+
+.app.dark .chart-card {
+  background: rgba(2, 6, 23, 0.72);
+}
+
+.app.dark .chart-card__header p {
+  color: rgba(226, 232, 240, 0.65);
+}
+
+.app.dark .chart-card__badge {
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.24), rgba(129, 140, 248, 0.25));
+  color: #bfdbfe;
+}
+
+.app.dark .chart-card .empty-state {
+  background: rgba(37, 99, 235, 0.18);
+  color: rgba(226, 232, 240, 0.8);
+}

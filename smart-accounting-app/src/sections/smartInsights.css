@@ -1,0 +1,98 @@
+.insights-card {
+  padding: 2rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.86);
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.insights-card header h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
+}
+
+.insights-card header p {
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.insight-grid {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.insight-item {
+  padding: 1.4rem;
+  border-radius: 18px;
+  background: rgba(37, 99, 235, 0.05);
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  display: grid;
+  gap: 0.5rem;
+}
+
+.insight-item .label {
+  font-size: 0.9rem;
+  color: rgba(37, 99, 235, 0.85);
+  font-weight: 600;
+}
+
+.insight-item .value {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.insight-item .description {
+  color: rgba(15, 23, 42, 0.66);
+  line-height: 1.6;
+}
+
+.insight-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1.2rem;
+}
+
+.insight-list li {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.insight-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  margin-top: 0.4rem;
+  flex-shrink: 0;
+}
+
+.insight-list h4 {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.insight-list p {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.68);
+  line-height: 1.6;
+}
+
+.app.dark .insights-card {
+  background: rgba(2, 6, 23, 0.72);
+}
+
+.app.dark .insight-item {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(96, 165, 250, 0.18);
+}
+
+.app.dark .insight-item .description {
+  color: rgba(226, 232, 240, 0.7);
+}
+
+.app.dark .insight-list p {
+  color: rgba(226, 232, 240, 0.75);
+}

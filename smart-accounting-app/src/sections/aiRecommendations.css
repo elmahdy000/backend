@@ -1,0 +1,87 @@
+.ai-panel {
+  padding: 2rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.86);
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.ai-panel header h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
+}
+
+.ai-panel header p {
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.ai-alerts {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.ai-alert {
+  border-radius: 18px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 1.4rem;
+  background: rgba(129, 140, 248, 0.08);
+  display: grid;
+  gap: 0.6rem;
+}
+
+.ai-alert__badge {
+  justify-self: flex-start;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.18), rgba(59, 130, 246, 0.22));
+  color: #4338ca;
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.ai-alert h4 {
+  font-size: 1.05rem;
+}
+
+.ai-alert p {
+  color: rgba(15, 23, 42, 0.65);
+  line-height: 1.6;
+}
+
+.ai-alert__impact {
+  color: #1d4ed8;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.ai-panel .empty-state {
+  padding: 1.6rem;
+  border-radius: 18px;
+  background: rgba(59, 130, 246, 0.08);
+  color: rgba(15, 23, 42, 0.68);
+  text-align: center;
+  font-weight: 500;
+}
+
+.app.dark .ai-panel {
+  background: rgba(2, 6, 23, 0.72);
+}
+
+.app.dark .ai-alert {
+  background: rgba(79, 70, 229, 0.16);
+  border-color: rgba(129, 140, 248, 0.24);
+}
+
+.app.dark .ai-alert p {
+  color: rgba(226, 232, 240, 0.75);
+}
+
+.app.dark .ai-alert__impact {
+  color: #a5b4fc;
+}
+
+.app.dark .ai-panel .empty-state {
+  background: rgba(79, 70, 229, 0.14);
+  color: rgba(226, 232, 240, 0.78);
+}

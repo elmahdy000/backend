@@ -1,0 +1,84 @@
+.overview {
+  display: grid;
+  gap: 1.8rem;
+}
+
+.overview__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.overview__highlights {
+  padding: 1.8rem;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.overview__highlights h3 {
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+.highlight-list {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.highlight-item {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.highlight-item .icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(124, 58, 237, 0.18));
+  color: #1d4ed8;
+}
+
+.highlight-item h4 {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.highlight-item p {
+  color: rgba(15, 23, 42, 0.7);
+  line-height: 1.6;
+}
+
+.overview__highlights .empty-state {
+  padding: 1.2rem 1.4rem;
+  border-radius: 16px;
+  background: rgba(37, 99, 235, 0.08);
+  color: rgba(15, 23, 42, 0.65);
+  font-weight: 500;
+  text-align: center;
+}
+
+.app.dark .overview__highlights h3,
+.app.dark .highlight-item h4 {
+  color: #e2e8f0;
+}
+
+.app.dark .highlight-item p {
+  color: rgba(226, 232, 240, 0.7);
+}
+
+.app.dark .highlight-item .icon {
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(167, 139, 250, 0.2));
+  color: #bfdbfe;
+}
+
+.app.dark .overview__highlights .empty-state {
+  background: rgba(79, 70, 229, 0.16);
+  color: rgba(226, 232, 240, 0.75);
+}
